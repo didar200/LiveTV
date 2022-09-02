@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-webserver
+  labels:
+    app: nginx-web
+
+spec:
+  template:
+    metadata:
+      name: nginx-web-pod
+      labels:
+        app: nginx-web
+
+    spec:
+      containers:
+        - name: nginx-web-container
+          image: nginx
+          ports:
+            - containerPort: 80
+        
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-web
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+  labels:
+    app: nginx-web
+
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: nginx-web
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webserver-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: web.gnibd.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-svc
+            port:
+              number: 80
