@@ -4,11 +4,11 @@ pipeline {
     environment {
         dockerImage =''
         registry = 'didar200/livewebserver'
-        redistryCredential = 'dockerhub'
+        registryCredential = 'dockerhub'
     }
 
     stages {
-        stage('Build docker image'){
+        stage('Build'){
             steps{
                 script{
                     dockerImage = docker.build registry
