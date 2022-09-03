@@ -10,23 +10,21 @@ pipeline {
             }
         }
         
-		stage('Login') {
-
-			steps {
-                script{
-				    sh 'echo $dockerhubpwd | docker login -u $dockerhubusr --password-stdin'
+	stage('Login') {
+	    steps {
+                script {
+		    sh 'echo $dockerhubpwd | docker login -u $dockerhubusr --password-stdin'
                 }
-			}
-		}
+	    }
+	}
 
-		stage('Push') {
-
-			steps {
+	stage('Push') {
+            steps {
                 script{
                     sh 'docker push didar200/LiveWebserver'
                 }
-			}
-		}
+	    }
+	}
         stage('Deploy to K8s') {
             steps {
               script {
