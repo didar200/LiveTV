@@ -1,27 +1,27 @@
 pipeline {
     agent any
+	
+    environment {
+        dockerImage =''
+        registry = 'didar200/livewebserver'
+        redistryCredential = 'dockerhub'
+    }
 
     stages {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t didar200/livewebserver .'
+                    dockerImage = docker.build registry
                 }
             }
         }
-        
-	stage('Login') {
-	    steps {
-                script {
-		    sh 'echo $dockerhubpwd | docker login -u $dockerhubusr --password-stdin'
-                }
-	    }
-	}
 
 	stage('Push') {
             steps {
                 script{
-                    sh 'docker push didar200/livewebserver'
+                    docker.withRegistry( '', registryCredential ) {
+			dockerImage.push()
+		    }
                 }
 	    }
 	}
