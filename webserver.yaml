@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: nginx-web-container
-          image: didar200/livewebserver
+          image: "didar200/livewebserver"
           ports:
             - containerPort: 80
         
