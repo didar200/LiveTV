@@ -5,7 +5,7 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t didar200/LiveWebserver .'
+                    sh 'docker build -t didar200/livewebserver .'
                 }
             }
         }
@@ -21,7 +21,7 @@ pipeline {
 	stage('Push') {
             steps {
                 script{
-                    sh 'docker push didar200/LiveWebserver'
+                    sh 'docker push didar200/livewebserver'
                 }
 	    }
 	}
